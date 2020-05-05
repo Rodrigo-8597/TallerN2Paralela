@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
     ofstream archivo_promedios;
     archivo_promedios.open("psu.txt");
 
-    pqxx::connection connect("dbname=pssdb user=pss");
+    pqxx::connection connect("dbname=psu user=psu");
     pqxx::work txn(connect);
     pqxx::result contenedor = txn.exec("SELECT * FROM puntajes");
 
