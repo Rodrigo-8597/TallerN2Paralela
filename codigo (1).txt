@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
     double promedio;
 
     ofstream archivo_promedios;
-    archivo_promedios.open("cd /home/rorro/Descargas/psu.txt");
+    archivo_promedios.open("psu.txt");
 
     pqxx::connection connect("dbname=pssdb user=pss");
     pqxx::work txn(connect);
