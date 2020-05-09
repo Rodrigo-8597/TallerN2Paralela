@@ -1,0 +1,36 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <cstdlib>
+#include <string>
+#include "db.h"
+using std::istringstream;
+using namespace std;
+
+int main(int argc, char** argv){
+    int promedio,dato=0;
+    double prom;
+    std::string datin;
+    std::ofstream archivo;
+    archivo.open("home/rorro/NetBeansProjects/prueba/resultado.csv");
+    PGconn* conexion = dbconnect((char *) DBSERVER, DBPORT, (char *) DBNAME, (char *) DBUSER, (char *) DBPASSWORD);
+    std::string query=("SELECT rut,nem,ranking,matematicas,lenguaje,ciencias,historia FROM puntajes ORDER BY rut");
+    PGresult* resultado = dbquery(conexion, (char *) query.c_str());
+    
+    for (int i=0; i<PQntuples(resultado);i++)
+    {
+        for(int j=1; j<PQnfields(resultado);j++)
+        {
+            datin = PQgetvalue(resultado,i,j);
+            std::istringstream(datin) >> dato;
+            promedio+=dato;
+            dato=0;
+        }
+        prom=(promedio/6);
+        archivo<<PQgetvalue(resultado, i, 0)<<";"<<prom<<endl;
+        promedio=0;
+        prom=0;
+    }
+    dbclose(conexion);
+    archivo.close();
+}
